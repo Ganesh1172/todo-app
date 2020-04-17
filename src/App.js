@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import "./App.css";
+import ListItems from "./List/ListItems.js";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faTrash);
 
 export default class App extends Component {
   constructor(props) {
@@ -13,6 +18,8 @@ export default class App extends Component {
     };
     this.handeInput = this.handleInput.bind(this);
     this.addItem = this.addItem.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
+    this.setUpdate = this.setUpdate.bind(this);
   }
 
   handleInput = (e) => {
@@ -28,7 +35,7 @@ export default class App extends Component {
     e.preventDefault();
     const newItem = this.state.currentItem;
     if (newItem !== "") {
-      const newItems = [...this.state.items, newItems];
+      const newItems = [...this.state.items, newItem];
       this.setState({
         items: newItems,
         currentItem: {
@@ -38,11 +45,29 @@ export default class App extends Component {
       });
     }
   };
+
+  deleteItem(key) {
+    const filteredItems = this.state.items.filter((item) => item.key !== key);
+    this.setState({
+      items: filteredItems,
+    });
+  }
+  setUpdate(text, key) {
+    const items = this.state.items;
+    items.map((item) => {
+      if (item.key === key) {
+        item.text = text;
+      }
+    });
+    this.setState({
+      items: items,
+    });
+  }
   render() {
     return (
-      <div>
-        <header className="App">
-          <form id="to-do-form" onSubmit="this.addItem">
+      <div className="App">
+        <header>
+          <form id="to-do-form" onSubmit={this.addItem}>
             <input
               type="text"
               placeholder="Enter you Todo"
@@ -52,6 +77,11 @@ export default class App extends Component {
             <button type="submit">Add</button>
           </form>
         </header>
+        <ListItems
+          items={this.state.items}
+          deleteItem={this.deleteItem}
+          setUpdate={this.setUpdate}
+        ></ListItems>
       </div>
     );
   }
