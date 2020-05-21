@@ -11,7 +11,7 @@ $ npm i --save @fortawesome/react-fontawesome
 
 >#### Clone repo and add in your system
 ```
-$ git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
+$ git clone https://github.com/ganesh1172/todo-app.git
 ```
 >#### Add node package manager to install packages
 ```
